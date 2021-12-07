@@ -1,0 +1,85 @@
+import networkx as nx
+import numpy as np
+import pandas as pd
+
+'''
+The below function get_graph gives us a complete bipartite graph.
+Input: number of nodes and number of clusters.
+Output: complete bipartite graph.
+'''
+
+def get_graph(nodes,clusters):
+        graph = {}
+        for i in range(nodes):
+                graph[i] = [nodes + j for j in range(clusters)]
+        for j in range(clusters):
+                graph[nodes + j] = [i for i in range(nodes)]
+        return graph
+
+
+
+'''
+The below function depth_first gives a list of all paths from a current vertex 
+Input:  graph, starting vertex, list of nodes already visited(typically []).
+Output: all cycle-free paths in the graph that start with the current vertex.
+'''
+
+already_visited = []
+
+def depth_first(graph, currentVertex, visited):
+    visited.append(currentVertex)
+    for vertex in graph[currentVertex]:
+        if vertex not in visited:
+            depth_first(graph, vertex, visited.copy())
+    already_visited.append(visited)
+    return already_visited
+
+'''
+The below function cycles_graph gives all the cycles in our bipartite graph
+Input: graph, number nodes
+Output: all simple cycles in a graph
+'''
+
+def cycles_graph(graph, nodes):
+        paths = []
+        for i in range(nodes):
+                already_visited = []
+                somePaths = depth_first(graph, i, [])
+                paths+=somePaths
+
+        multi_vertex_paths = list(filter(lambda c: len(c) >= 4, paths))
+        even_length_paths = list(filter(lambda c: len(c) % 2 == 0 ,multi_vertex_paths))
+
+        paths_set = set(map(tuple,even_length_paths))
+        dup_removed = list(paths_set)
+        final_cycles = [list(ele) for ele in dup_removed]
+
+        for i in range(len(final_cycles)):
+                final_cycles[i].append(final_cycles[i][0])
+        return final_cycles
+
+'''
+The below function cycle_circuits takes all the cycles found in cycles_graph and turns them into circuits by assigning them 1 if they are entering a cluster and -1 if they are leaving a cluster.
+input: number of nodes and number of clusters
+output: all sequential circuits in our graph
+'''
+
+def cycle_circuits(nodes,clusters):
+        graph = get_graph(nodes, clusters)
+        cycles = cycles_graph(graph, nodes)
+
+        num_paths = len(cycles)
+        print(num_paths)
+        circuits = []
+        for i in range(num_paths):
+                path = cycles[i]
+                pos_circ = np.zeros(nodes*clusters)
+
+                odd_step = [path[i+1]*clusters + (path[i] - nodes) for i in range(1, len(path)-1, 2)]
+                even_step = [path[i]*clusters + (path[i+1] - nodes) for i in range(0, len(path)-1, 2)]
+
+                pos_circ[odd_step] = -1
+                pos_circ[even_step] = 1
+                circuits.append(pos_circ)
+
+        return circuits
