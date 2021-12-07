@@ -1,1 +1,6 @@
 # claws_and_effect
+
+According to the American Society for the Prevention of Cruelty to Animals (ASPCA) around 6.3 million animals enter shelters each year in the United States, and of those around 920,000 are euthanized. This number has decreased drastically from 2.6 million per year in 2011, and this decline in euthanization can be partially explained by an increase in the percentage of animals adopted.
+
+At the beginning of the ongoing covid-19 pandemic, shelters were seeing an immense increase in pet adoption, so much so that some shelters and rescues were empty. While the pandemic has been disastrous for numerous reasons, it has revealed valuable information on adoption rates, such as which areas have the most demand for pets. We utilize this information to help us distribute pets between facilities in such a way to better satisfy this demand and ensure we are maximizing the amount of pets being placed in permanent homes. We recommend policy makers consider incorporating this strategy for increasing adoption through redistribution of pets into the The Pet Animal Care Facilities Act (PACFA) Program, which is dedicated to protecting the well-being of pet animals in facilities throughout Colorado.
+
